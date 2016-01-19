@@ -1,0 +1,113 @@
+﻿<h1>Hi {{vm.user.firstName}}!!</h1>
+
+
+<html ng-app="trainingPortal">
+<head>
+  <title>Training Portal</title>
+ <!--  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+   -->
+      <!-- external scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+    <!-- application scripts -->
+    <script src="app.js"></script>
+    <script src="app-services/user.service.js"></script>
+        <script src="app-services/training.service.js"></script>
+    <script src="app-services/flash.service.js"></script>
+    <script src="home/index.controller.js"></script>
+    <script src="account/index.controller.js"></script>
+
+  <style> .glyphicon-thumbs-up { cursor:pointer } </style>
+      
+    
+</head>
+<body ng-controller="MainCtrl" >
+ <div role="main" class="container theme-showcase">
+      <div class="" style="margin-top:90px;">
+        <div class="col-lg-8">
+      <div class="page-header">
+        <h2 id="tables">List Of Trainings</h2>
+      </div>
+     
+      <div class="bs-component" >
+        
+        <form class="form-inline">
+          <div class="form-group">
+            <label >Search</label>
+            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+          </div>
+        </form>
+      <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th ng-click="sort('first_name')">Id
+                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('first_name')">First Name
+                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('last_name')">Last Name
+                <span class="glyphicon sort-icon" ng-show="sortKey=='last_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('course')">Course
+                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+         
+          <!-- dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" -->
+            <tr ng-repeat="user in users|orderBy:sortKey:reverse|filter:search"> 
+              <td>{{$index + 1}}</td>
+              <td>{{user.first_name}}</td>
+              <td>{{user.last_name}}</td>
+              <td>{{user.course}}</td>
+            </tr>
+          </tbody>
+        </table> 
+       <!--  <dir-pagination-controls
+          max-size="5"
+          direction-links="true"
+          boundary-links="true" >
+        </dir-pagination-controls> -->
+        </div>
+        </div>
+        </div>
+        </div>
+
+     <!--  <form ng-submit="addPost()"
+        style="margin-top:30px;">
+        <h3>Add a new post</h3>
+
+        <div class="form-group">
+          <input type="text"
+            class="form-control"
+            placeholder="Title"
+            ng-model="title"></input>
+        </div>
+        <div class="form-group">
+          <input type="text"
+          class="form-control"
+          placeholder="Link"
+          ng-model="link"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form> -->
+
+    </div>
+  </div>
+
+<!-- ************************** this is a template block *************************************
+******************************************************************************************-->
+<script type="text/ng-template" id="/home.html">
+  <div class="page-header">
+    <h1>Flapper News</h1>
+  </div>
+  <!-- rest of template -->
+</script>
+</body>
+</html>
