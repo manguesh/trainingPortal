@@ -99,7 +99,8 @@
                 <div class="form-group">
                  <fieldset class="form-group">
     <legend >Add Trainings </legend>
-    
+    <input type="hidden" ng-model="formData.addedby" value={{vm.users._id}}>
+    <input type="hidden" ng-model="formData.addedStatus" value="false">
    
   </fieldset>
 

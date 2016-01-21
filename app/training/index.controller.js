@@ -58,9 +58,7 @@
         }
 
         $scope.createTodo=function(){
-          console.log($scope.formData);
-          $scope.formData.addedby= $scope.vm.users._id;
-          $scope.formData.approvedStatus= false;
+
           TrainingService.Create($scope.formData).then(function (training) {
                 TrainingService.GetAll().then(function (training) {
                 vm.trainings = training;
