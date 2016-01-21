@@ -1,0 +1,151 @@
+﻿<h1>Hi {{vm.users.firstName}}!!</h1>
+
+
+<html ng-app="app">
+<head>
+  <title>Training Portal</title>
+ <!--  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+   -->
+      <!-- external scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+    <!-- application scripts -->
+    <script src="app.js"></script>
+    <script src="app-services/user.service.js"></script>
+        <script src="app-services/training.service.js"></script>
+    <script src="app-services/flash.service.js"></script>
+    <script src="home/index.controller.js"></script>
+    <script src="account/index.controller.js"></script>
+
+  <style> .glyphicon-thumbs-up { cursor:pointer } </style>
+      
+    
+</head>
+<body ng-controller="Training.IndexController" >
+ <div role="main" class="container theme-showcase">
+      <div class="" style="margin-top:90px;">
+        <div class="col-lg-8">
+      <div class="page-header">
+        <h2 id="tables">List Of Trainings</h2>
+      </div>
+     
+      <div class="bs-component" >
+        
+        <form class="form-inline">
+          <div class="form-group">
+            <label >Search</label>
+            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+          </div>
+        </form>
+      <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th ng-click="sort('id')">Id
+                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('Name')">Name
+                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('desc')">Short Description
+                <span class="glyphicon sort-icon" ng-show="sortKey=='last_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('date')">Date
+                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('time')">Time
+                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('nominee')">Nomine
+                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th ng-click="sort('status')">Status
+                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+         
+          <!-- dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" -->
+            <tr ng-repeat="training in vm.trainings|orderBy:sortKey:reverse|filter:search"> 
+              <td>{{$index + 1}}</td>
+              <td>{{training.Name}}</td>
+              <td>{{training.desc}}</td>
+              <td>{{training.date}}</td>
+               <td>{{training.time}}</td>
+                <td>{{training.nominee}}</td> 
+                <td ng-switch on="vm.users.userType"><button ng-switch-when="1" ng-click="approveTraining(training._id)">Approve</button><button ng-switch-when="2"  ng-click="applyTraining(training._id)">Apply</button><button ng-switch-when="3"  ng-click="applyTraining(training._id)">Apply</button></td>
+            </tr>
+          </tbody>
+        </table> 
+       <!--  <dir-pagination-controls
+          max-size="5"
+          direction-links="true"
+          boundary-links="true" >
+        </dir-pagination-controls> -->
+        </div>
+        </div>
+        </div>
+        </div>
+<div ng-switch on="vm.users.userType">
+<div ng-switch-when="2"  >
+     <!-- FORM TO CREATE TODOS -->
+    <div id="todo-form" class="row">
+        
+            <form method="post">
+                <div class="form-group">
+                 <fieldset class="form-group">
+    <legend >Add Trainings </legend>
+    
+   
+  </fieldset>
+
+                    <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+                   <fieldset class="form-group">
+    <label for="exampleInputEmail1">Training On</label>
+    <input type="text" class="form-control" placeholder="Title for Training ex. Beginners Training for Java" ng-model="formData.Name" >
+   
+  </fieldset>
+                    <fieldset class="form-group">
+    <label for="exampleInputEmail1">Short Description</label>
+    <input type="text" class="form-control" placeholder="Write a short Description regarding the training" ng-model="formData.desc" >
+   
+  </fieldset>
+   <fieldset class="form-group"  class="ng-isolate-scope">
+   <div style="width:30%" >
+    <label>Date</label>
+<datepicker date-format="MMMM d, y">
+  <input ng-model="formData.date" type="text"/>
+</datepicker>
+
+    </div>   
+                    </fieldset>
+                     <fieldset class="form-group">
+                    <label for="exampleInputEmail1">Timings:</label><input type="text" class="form-control" placeholder="04:00-05:00" ng-model="formData.time"></fieldset>
+                     <fieldset class="form-group">
+                    <label>Nominee:</label><input type="text" class="form-control" placeholder="John Souza" ng-model="formData.nominee"></fieldset>
+                </div>
+
+                <!-- createToDo() WILL CREATE NEW TODOS -->
+                <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Submit for Approval</button>
+            </form>
+    </div>
+  
+    </div>
+  </div>
+  </div>
+  </div>
+
+<!-- ************************** this is a template block *************************************
+******************************************************************************************-->
+<script type="text/ng-template" id="/home.html">
+  <div class="page-header">
+    <h1>Flapper News</h1>
+  </div>
+  <!-- rest of template -->
+</script>
+</body>
+</html>

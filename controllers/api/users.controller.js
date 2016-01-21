@@ -10,6 +10,10 @@ router.get('/current', getCurrentUser);
 router.put('/:_id', updateUser);
 router.delete('/:_id', deleteUser);
 
+router.get('/all',getAllTraining);
+router.get('/allapproved',getAllApproved);
+
+
 module.exports = router;
 
 function authenticateUser(req, res) {
@@ -79,6 +83,34 @@ function deleteUser(req, res) {
     userService.delete(userId)
         .then(function () {
             res.sendStatus(200);
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+function getAllTraining(req, res) {
+    userService.getAll()
+        .then(function (training) {
+            if (training) {
+                res.send(training);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getAllApproved(req, res) {
+    console.log("in cont");
+    userService.getAllApprovedTraining()
+        .then(function (training) {
+            if (training) {
+                res.send(training);
+            } else {
+                res.sendStatus(404);
+            }
         })
         .catch(function (err) {
             res.status(400).send(err);

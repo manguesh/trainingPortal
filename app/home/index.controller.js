@@ -8,17 +8,22 @@
     function Controller(UserService) {
         var vm = this;
         
-        vm.user = null;
-        vm.training = null;
+        vm.users = null;
+        vm.trainings = null;
 
         initController();
 
         function initController() {
             // get current user
             UserService.GetCurrent().then(function (user) {
-                vm.user = user;
+                vm.users = user;
             });
 
+            // // get trainings
+            // TrainingService.GetAll().then(function (training) {
+            //     console.log("training",training);
+            //     vm.training = training;
+            // });
         }
     }
     // function Controller(TrainingService) {

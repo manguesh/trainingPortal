@@ -5,10 +5,11 @@ var trainingService = require('services/training.service');
 
 // routes
 //router.post('/authenticate', authenticateUser);
-router.post('/register', registerTraining);
+router.post('/add', registerTraining);
 router.get('/all', getAllTraining);
 router.put('/:_id', updateTraining);
 router.delete('/:_id', deleteTraining);
+router.get('/approved',getAllApproved);
 
 module.exports = router;
 
@@ -26,6 +27,20 @@ function registerTraining(req, res) {
 
 function getAllTraining(req, res) {
     trainingService.getAll()
+        .then(function (training) {
+            if (training) {
+                res.send(training);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
+}
+
+function getAllApproved(req, res) {
+    trainingService.getAllApproved()
         .then(function (training) {
             if (training) {
                 res.send(training);

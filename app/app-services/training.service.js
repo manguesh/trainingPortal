@@ -14,6 +14,9 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        //service.GetAllUnapproved = GetAllUnapproved;
+        service.getAllApproved = getAllApproved;
+
 
         return service;
 
@@ -29,7 +32,7 @@
             return $http.get('/api/training/' + _id).then(handleSuccess, handleError);
         }
         function Create(training) {
-            return $http.post('/api/training', training).then(handleSuccess, handleError);
+            return $http.post('/api/training/add', training).then(handleSuccess, handleError);
         }
 
         function Update(training) {
@@ -38,6 +41,9 @@
 
         function Delete(_id) {
             return $http.delete('/api/training/' + _id).then(handleSuccess, handleError);
+        }
+        function getAllApproved() {
+            return $http.get('/api/training/approved').then(handleSuccess, handleError);
         }
 
         // private functions

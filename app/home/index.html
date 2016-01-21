@@ -1,6 +1,6 @@
-﻿<h1>Hi {{vm.user.firstName}}!!</h1>
+﻿<h1>Hi {{vm.users.firstName}}!!</h1>
 
-
+<div ng-switch on="vm.users.userType"><h1 ng-switch-when="1">Welcome as LND Admin </h1><h1 ng-switch-when="2">Welcome as Manager </h1><h1 ng-switch-when="3">Welcome as Employee </h1></div>
 <html ng-app="trainingPortal">
 <head>
   <title>Training Portal</title>
@@ -25,59 +25,10 @@
       
     
 </head>
-<body ng-controller="MainCtrl" >
- <div role="main" class="container theme-showcase">
-      <div class="" style="margin-top:90px;">
-        <div class="col-lg-8">
-      <div class="page-header">
-        <h2 id="tables">List Of Trainings</h2>
-      </div>
-     
-      <div class="bs-component" >
-        
-        <form class="form-inline">
-          <div class="form-group">
-            <label >Search</label>
-            <input type="text" ng-model="search" class="form-control" placeholder="Search">
-          </div>
-        </form>
-      <table class="table table-striped table-hover">
-          <thead>
-            <tr>
-              <th ng-click="sort('first_name')">Id
-                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-              <th ng-click="sort('first_name')">First Name
-                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-              <th ng-click="sort('last_name')">Last Name
-                <span class="glyphicon sort-icon" ng-show="sortKey=='last_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-              <th ng-click="sort('course')">Course
-                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-         
-          <!-- dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" -->
-            <tr ng-repeat="user in users|orderBy:sortKey:reverse|filter:search"> 
-              <td>{{$index + 1}}</td>
-              <td>{{user.first_name}}</td>
-              <td>{{user.last_name}}</td>
-              <td>{{user.course}}</td>
-            </tr>
-          </tbody>
-        </table> 
-       <!--  <dir-pagination-controls
-          max-size="5"
-          direction-links="true"
-          boundary-links="true" >
-        </dir-pagination-controls> -->
-        </div>
-        </div>
-        </div>
-        </div>
+<body >
+<!-- <div ng-repeat="training in vm.trainings|orderBy:sortKey:reverse|filter:search"> 
+<div ng-switch on="vm.users.userType"><h1 ng-switch-when="1">Welcome as LND Admin </h1><h1 ng-switch-when="2">Welcome as Manager </h1><h1 ng-switch-when="3">Welcome as Employee </h1></div>
+</div> -->
 
      <!--  <form ng-submit="addPost()"
         style="margin-top:30px;">
@@ -98,8 +49,6 @@
         <button type="submit" class="btn btn-primary">Post</button>
       </form> -->
 
-    </div>
-  </div>
 
 <!-- ************************** this is a template block *************************************
 ******************************************************************************************-->

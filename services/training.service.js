@@ -14,20 +14,22 @@ var service = {};
 service.getById = getById;
 service.getAll = getAll;
 service.create = create;
-service.update = update;
+service.updateTraining = update;
 service.delete = _delete;
+service.getAllApproved = getAllApproved;
 
 module.exports = service;
 
 function getAll() {
+    
     var deferred = Q.defer();
+    trainingDb.find({}, {},function (err, training) {
 
-    trainingDb.find(function (err, training) {
         if (err) deferred.reject(err);
 
         if (training) {
-        	console.log("training",training);
-            // return user (without hashed password)
+        	
+            
             deferred.resolve(training);
         } else {
             // user not found
@@ -37,6 +39,27 @@ function getAll() {
 
     return deferred.promise;
 }
+
+function getAllApproved() {
+    
+    var deferred = Q.defer();
+    trainingDb.find({"approvedStatus":true}, {},function (err, training) {
+
+        if (err) deferred.reject(err);
+
+        if (training) {
+            
+            
+            deferred.resolve(training);
+        } else {
+            // user not found
+            deferred.resolve();
+        }
+    });
+
+    return deferred.promise;
+}
+
 
 
 function getById(_id) {
@@ -60,21 +83,23 @@ function getById(_id) {
 function create(trainingParam) {
     var deferred = Q.defer();
 
-    // validation
-    trainingDb.findOne(
-       // { username: userParam.username },
-        function (err, training) {
-            if (err) deferred.reject(err);
+    // // validation
+    // trainingDb.findOne(
+    //    // { username: userParam.username },
+    //     function (err, training) {
+    //         if (err) deferred.reject(err);
 
-            // if (user) {
-            //     // username already exists
-            //     deferred.reject('Username "' + userParam.username + '" is already taken');
-            // } else {
-                createTraining();
-            // }
-        });
+    //         if (training) {
+    //             // username already exists
+    //             deferred.reject('Username "' + userParam.username + '" is already taken');
+    //         } else {
+                createTraining(trainingParam);
+        //     }
+        // });
+         return deferred.promise;
+    
 
-    function createTraining() {
+    function createTraining(trainingParam) {
         // set user object to userParam without the cleartext password
 var training = trainingParam;// _.omit(userParam, 'password');
 

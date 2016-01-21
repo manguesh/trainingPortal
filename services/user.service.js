@@ -3,7 +3,9 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk(config.connectionString);
 var usersDb = db.get('users');
+var trainingDb = db.get('trainings');
 var _ = require('lodash');
+
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var Q = require('q');
@@ -16,6 +18,8 @@ service.create = create;
 service.update = update;
 service.delete = _delete;
 
+service.getAll = getAll;
+service.getAllApprovedTraining = getAllApprovedTraining;
 module.exports = service;
 
 function authenticate(username, password) {
@@ -155,3 +159,45 @@ function _delete(_id) {
 
     return deferred.promise;
 }
+
+
+function getAll() {
+    
+    var deferred = Q.defer();
+    trainingDb.find({}, {},function (err, training) {
+
+        if (err) deferred.reject(err);
+
+        if (training) {
+        
+            
+            deferred.resolve(training);
+        } else {
+            // user not found
+            deferred.resolve();
+        }
+    });
+
+    return deferred.promise;
+}
+
+function getAllApprovedTraining() {
+   console.log("in"); 
+    var deferred = Q.defer();
+    trainingDb.find({"approvedStatus":true}, {},function (err, training) {
+
+        if (err) deferred.reject(err);
+
+        if (training) {
+           
+            
+            deferred.resolve(training);
+        } else {
+            // user not found
+            deferred.resolve();
+        }
+    });
+
+    return deferred.promise;
+}
+

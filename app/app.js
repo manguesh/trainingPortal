@@ -24,6 +24,13 @@
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'account' }
+            })
+            .state('training', {
+                url: '/training',
+                templateUrl: 'training/index.html',
+                controller: 'Training.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'training' }
             });
     }
 

@@ -15,6 +15,7 @@
         service.Create = Create;
         service.Update = Update;
         service.Delete = Delete;
+        service.GetAllApproved = GetAllApproved;
 
         return service;
 
@@ -23,7 +24,7 @@
         }
 
         function GetAll() {
-            return $http.get('/api/users').then(handleSuccess, handleError);
+            return $http.get('/api/users/all').then(handleSuccess, handleError);
         }
 
         function GetById(_id) {
@@ -44,6 +45,9 @@
 
         function Delete(_id) {
             return $http.delete('/api/users/' + _id).then(handleSuccess, handleError);
+        }
+        function GetAllApproved() {
+            return $http.get('/api/users/allapproved').then(handleSuccess, handleError);
         }
 
         // private functions
