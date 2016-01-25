@@ -15,7 +15,7 @@
         service.Update = Update;
         service.Delete = Delete;
         //service.GetAllUnapproved = GetAllUnapproved;
-        service.getAllApproved = getAllApproved;
+        service.GetAllApproved = getAllApproved;
 
 
         return service;

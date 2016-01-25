@@ -1,39 +1,39 @@
-﻿<h1>Hi {{vm.users.firstName}}!!</h1>
-
-
-<html ng-app="app">
+﻿<html>
 <head>
   <title>Training Portal</title>
- <!--  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-   -->
-      <!-- external scripts -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <!--<link href="training/src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />-->
+
+    <!-- external scripts -->
 
     <!-- application scripts -->
     <script src="app.js"></script>
     <script src="app-services/user.service.js"></script>
-        <script src="app-services/training.service.js"></script>
+    <script src="app-services/training.service.js"></script>
     <script src="app-services/flash.service.js"></script>
     <script src="home/index.controller.js"></script>
     <script src="account/index.controller.js"></script>
 
-  <style> .glyphicon-thumbs-up { cursor:pointer } </style>
-      
-    
+    <style> .glyphicon-thumbs-up { cursor:pointer }
+
+    #wrapper {
+    font: 20px Calibri;
+    width: 100px;
+    margin: 0 auto;
+    }
+    </style>
+
 </head>
-<body ng-controller="Training.IndexController" >
+<body ng-controller="Training.IndexController" ng-app="app">
+<!--<script src="training/src/js/angular-datepicker.js"></script>-->
  <div role="main" class="container theme-showcase">
       <div class="" style="margin-top:90px;">
-        <div class="col-lg-8">
-      <div class="page-header">
-        <h2 id="tables">List Of Trainings</h2>
-      </div>
-     
-      <div class="bs-component" >
+          <div class="col-lg-8">
+              <div class="page-header">
+                  <h2 id="tables">Scheduled Trainings</h2>
+              </div>
+              <div class="bs-component" >
         
         <form class="form-inline">
           <div class="form-group">
@@ -45,98 +45,141 @@
           <thead>
             <tr>
               <th ng-click="sort('id')">Id
-                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span class="glyphicon sort-icon" ng-show="sortKey=='topicName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('Name')">Name
-                <span class="glyphicon sort-icon" ng-show="sortKey=='first_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('topicName')">Name
+                <span class="glyphicon sort-icon" ng-show="sortKey=='topicName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('desc')">Short Description
-                <span class="glyphicon sort-icon" ng-show="sortKey=='last_name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('description')">Short Description
+                <span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('date')">Date
-                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('dates')">Date
+                <span class="glyphicon sort-icon" ng-show="sortKey=='dates'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('time')">Time
-                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('timings')">Time
+                <span class="glyphicon sort-icon" ng-show="sortKey=='timings'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('nominee')">Nomine
-                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('trainingBy')">Trainer
+                <span class="glyphicon sort-icon" ng-show="sortKey=='trainingBy'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th ng-click="sort('status')">Status
-                <span class="glyphicon sort-icon" ng-show="sortKey=='course'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th ng-click="sort('approved')">Status
+                <span class="glyphicon sort-icon" ng-show="sortKey=='approved'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
             </tr>
           </thead>
           <tbody>
          
-          <!-- dir-paginate="user in users|orderBy:sortKey:reverse|filter:search|itemsPerPage:5" -->
-            <tr ng-repeat="training in vm.trainings|orderBy:sortKey:reverse|filter:search"> 
+          <!--<tr dir-paginate="training in vm.training|orderBy:sortKey:reverse|filter:search|itemsPerPage:1">-->
+          <!--<tr ng-repeat="training in vm.trainings | startFrom:vm.currentPage*vm.pageSize | limitTo:vm.pageSize">-->
+          <tr ng-repeat="training in vm.trainings| orderBy:sortKey:reverse|filter:search">
               <td>{{$index + 1}}</td>
-              <td>{{training.Name}}</td>
-              <td>{{training.desc}}</td>
-              <td>{{training.date}}</td>
-               <td>{{training.time}}</td>
-                <td>{{training.nominee}}</td> 
-                <td ng-switch on="vm.users.userType"><button ng-switch-when="1" ng-click="approveTraining(training._id)">Approve</button><button ng-switch-when="2"  ng-click="applyTraining(training._id)">Apply</button><button ng-switch-when="3"  ng-click="applyTraining(training._id)">Apply</button></td>
+              <td>{{training.trainingTopic}}</td>
+              <td>{{training.description}}</td>
+              <td>{{training.dates}}</td>
+              <td>{{training.timingsFrom}} - {{training.timingsTo}}</td>
+              <td>{{training.trainingBy}}</td>
+              <td >
+                  <!--<button ng-switch-when="1" ng-click="vm.approveTraining(training._id)">Approve</button>
+                  <button ng-switch-when="0"  ng-click="applyTraining(training._id)">Apply</button>-->
+                  <button ng-show="(vm.users.userType * !training.approved) && (vm.users.userType == 1)" ng-click="vm.approveTraining(training._id)">Approve</button>
+                  <button ng-show="(vm.users.userType > 1 && training.approved)">Apply</button>
+              </td>
             </tr>
           </tbody>
-        </table> 
-       <!--  <dir-pagination-controls
+        </table>
+          <!--<button ng-disabled="vm.currentPage == 0" ng-click="vm.currentPage=vm.currentPage-1">
+              Previous
+          </button>
+          {{vm.currentPage+1}}/{{vm.numberOfPages()}}
+          <button ng-disabled="vm.currentPage >= vm.data.length/vm.pageSize - 1" ng-click="vm.currentPage=vm.currentPage+1">
+              Next
+          </button>-->
+       <!--<dir-pagination-controls
           max-size="5"
           direction-links="true"
           boundary-links="true" >
-        </dir-pagination-controls> -->
+        </dir-pagination-controls>-->
+          <div ng-switch on="vm.users.userType">
+              <div ng-switch-when="2"  >
+                  <!-- FORM TO CREATE TODOS -->
+                  <div id="todo-form" class="row">
+                      <div class="form-container">
+                          <form method="post">
+                              <legend >Propose a New Training</legend>
+                              <input type="hidden" ng-model="vm.training.addedBy" value="vm.users.userType">
+                              <input type="hidden" ng-model="vm.training.addedStatus" value="false">
+                              <div class="form-group">
+                                  <label for="trainingTopic">Training Topic</label>
+                                  <input type="text" id="trainingTopic" class="form-control" ng-model="vm.training.trainingTopic" required />
+                              </div>
+                              <div class="form-group">
+                                  <label for="description">Description</label>
+                                  <textarea cols="20" rows="5" id="description" class="form-control" ng-model="vm.training.description" required></textarea>
+                              </div>
+                              <div class="form-group" >
+                                  <label for="dates">Dates</label>
+                                  <input type="text" id="dates" class="form-control" ng-model="vm.training.dates" jqdatepicker required />
+                                  <br/>
+                              </div>
+                              <div class="form-group">
+                                  <label>From Time</label>
+                                  <select name="singleSelect" id="timingsFrom" class="form-control" style="width:40%" ng-model="vm.training.timingsFrom" required>
+                                      <option value="10 AM">10 AM</option>
+                                      <option value="10.30 AM">10.30 AM</option>
+                                      <option value="11 AM">11 AM</option>
+                                      <option value="11.30 AM">11.30 AM</option>
+                                      <option value="12 AM">12 AM</option>
+                                      <option value="12.30 PM">12.30 PM</option>
+                                      <option value="1 PM">1 PM</option>
+                                      <option value="1.30 PM">1.30 PM</option>
+                                      <option value="2 PM">2 PM</option>
+                                      <option value="2.30 PM">2.30 PM</option>
+                                      <option value="3 PM">3 PM</option>
+                                      <option value="3.30 PM">3.30 PM</option>
+                                      <option value="4 PM">4 PM</option>
+                                      <option value="4.30 PM">4.30 PM</option>
+                                      <option value="5 PM">5 PM</option>
+                                      <option value="5.30 AM">5.30 PM</option>
+                                  </select>
+                                  <label>To Time</label>
+                                  <select name="singleSelect" id="timingsTo" class="form-control" style="width:40%" ng-model="vm.training.timingsTo" required>
+                                      <option value="10.30 AM">10.30 AM</option>
+                                      <option value="11 AM">11 AM</option>
+                                      <option value="11.30 AM">11.30 AM</option>
+                                      <option value="12 AM">12 AM</option>
+                                      <option value="12.30 PM">12.30 PM</option>
+                                      <option value="1 PM">1 PM</option>
+                                      <option value="1.30 PM">1.30 PM</option>
+                                      <option value="2 PM">2 PM</option>
+                                      <option value="2.30 PM">2.30 PM</option>
+                                      <option value="3 PM">3 PM</option>
+                                      <option value="3.30 PM">3.30 PM</option>
+                                      <option value="4 PM">4 PM</option>
+                                      <option value="4.30 PM">4.30 PM</option>
+                                      <option value="5 PM">5 PM</option>
+                                      <option value="5.30 AM">5.30 PM</option>
+                                      <option value="6 PM">6 PM</option>
+                                      <option value="6.30 PM">6.30 PM</option>
+                                      <option value="7 PM">7 PM</option>
+                                      <option value="7.30 AM">8.30 PM</option>
+                                  </select>
+                              </div>
+                              <div class="form-group">
+                                  <label for="trainingBy">Training By</label>
+                                  <input type="text" id="trainingBy" class="form-control" ng-model="vm.training.trainingBy" required />
+                              </div>
+                              <div class="form-group">
+                                  <button class="btn btn-primary" ng-click="vm.createTraining(vm.training)">Save</button>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
         </div>
         </div>
         </div>
-<div ng-switch on="vm.users.userType">
-<div ng-switch-when="2"  >
-     <!-- FORM TO CREATE TODOS -->
-    <div id="todo-form" class="row">
-        
-            <form method="post">
-                <div class="form-group">
-                 <fieldset class="form-group">
-    <legend >Add Trainings </legend>
-    <input type="hidden" ng-model="formData.addedby" value={{vm.users._id}}>
-    <input type="hidden" ng-model="formData.addedStatus" value="false">
-   
-  </fieldset>
-
-                    <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                   <fieldset class="form-group">
-    <label for="exampleInputEmail1">Training On</label>
-    <input type="text" class="form-control" placeholder="Title for Training ex. Beginners Training for Java" ng-model="formData.Name" >
-   
-  </fieldset>
-                    <fieldset class="form-group">
-    <label for="exampleInputEmail1">Short Description</label>
-    <input type="text" class="form-control" placeholder="Write a short Description regarding the training" ng-model="formData.desc" >
-   
-  </fieldset>
-   <fieldset class="form-group"  class="ng-isolate-scope">
-   <div style="width:30%" >
-    <label>Date</label>
-<datepicker date-format="MMMM d, y">
-  <input ng-model="formData.date" type="text"/>
-</datepicker>
-
-    </div>   
-                    </fieldset>
-                     <fieldset class="form-group">
-                    <label for="exampleInputEmail1">Timings:</label><input type="text" class="form-control" placeholder="04:00-05:00" ng-model="formData.time"></fieldset>
-                     <fieldset class="form-group">
-                    <label>Nominee:</label><input type="text" class="form-control" placeholder="John Souza" ng-model="formData.nominee"></fieldset>
-                </div>
-
-                <!-- createToDo() WILL CREATE NEW TODOS -->
-                <button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Submit for Approval</button>
-            </form>
-    </div>
-  
-    </div>
-  </div>
   </div>
   </div>
 

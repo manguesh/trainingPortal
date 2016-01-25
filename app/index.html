@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Training Portal</title>
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
     <link href="app-content/app.css" rel="stylesheet" />
 </head>
@@ -15,6 +15,7 @@
             <li ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
             <li ng-class="{active: activeTab === 'training'}"><a ui-sref="training">Training</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
+            <li ng-show=""><a href="/login" target="_self">Logout</a></li>
         </ul>
         <div class="flash-message" ng-if="flash">
             <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
@@ -28,7 +29,9 @@
     <footer></footer>
 
     <!-- external scripts -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
 

@@ -1,4 +1,7 @@
-var config = require('config.json');
+var config = require('../config.json');
+
+console.log("config:::" + (config.connectionString));
+
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk(config.connectionString);
@@ -21,15 +24,15 @@ service.getAllApproved = getAllApproved;
 module.exports = service;
 
 function getAll() {
-    
+
     var deferred = Q.defer();
     trainingDb.find({}, {},function (err, training) {
 
         if (err) deferred.reject(err);
 
         if (training) {
-        	
-            
+console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + JSON.stringify(training));
+
             deferred.resolve(training);
         } else {
             // user not found
@@ -43,13 +46,11 @@ function getAll() {
 function getAllApproved() {
     
     var deferred = Q.defer();
-    trainingDb.find({"approvedStatus":true}, {},function (err, training) {
+    trainingDb.find({"approved":true}, {},function (err, training) {
 
         if (err) deferred.reject(err);
 
         if (training) {
-            
-            
             deferred.resolve(training);
         } else {
             // user not found
@@ -63,17 +64,20 @@ function getAllApproved() {
 
 
 function getById(_id) {
+
+    console.log("this is id " + JSON.stringify(_id));
     var deferred = Q.defer();
 
     trainingDb.findById(_id, function (err, training) {
+        console.log("hing mevta" + JSON.stringify(training));
         if (err) deferred.reject(err);
 
-        if (user) {
-            // return user (without hashed password)
-            deferred.resolve(_.omit(training, 'hash'));
+        if (training) {
+            console.log("in success");
+            deferred.resolve(training);
         } else {
-            // user not found
-            deferred.resolve();
+            // training not found
+            deferred.resolve(training);
         }
     });
 
@@ -121,8 +125,9 @@ var training = trainingParam;// _.omit(userParam, 'password');
 function update(_id, trainingParam) {
     var deferred = Q.defer();
 
+    updatetraining(_id, trainingParam);
     // validation
-    trainingDb.findById(_id, function (err, training) {
+    /*trainingDb.findById(_id, function (err, training) {
         if (err) deferred.reject(err);
 
         if (training.trainingName !== trainingParam.trainingName) {
@@ -132,9 +137,9 @@ function update(_id, trainingParam) {
                 function (err, training) {
                     if (err) deferred.reject(err);
 
-                    if (user) {
+                    if (training) {
                         // username already exists
-                        deferred.reject('Username "' + req.body.trainingName + '" is already taken')
+                        deferred.reject('Training "' + req.body.trainingName + '" is already taken')
                     } else {
                         updatetraining();
                     }
@@ -142,17 +147,18 @@ function update(_id, trainingParam) {
         } else {
             updatetraining();
         }
-    });
+    });*/
 
-    function updatetraining() {
+    function updatetraining(_id, trainingParam) {
         // fields to update
         var set = {
-            trainingName: trainingParam.trainingName,
+            trainingTopic: trainingParam.trainingTopic,
             description: trainingParam.description,
-            date:trainingParam.date,
-            timing:training.timing,
-            nominee:training.nominee,
-            addedBy:user_id
+            dates:trainingParam.dates,
+            timingTo:trainingParam.timingTo,
+            timingFrom:trainingParam.timingFrom,
+            trainingBy:trainingParam.trainingBy,
+            approved:true
         };
 
        

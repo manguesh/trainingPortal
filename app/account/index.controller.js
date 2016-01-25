@@ -22,6 +22,8 @@
         }
 
         function saveUser() {
+
+            console.log("###############################################################" + JSON.stringify(vm.user));
             UserService.Update(vm.user)
                 .then(function () {
                     FlashService.Success('User updated');

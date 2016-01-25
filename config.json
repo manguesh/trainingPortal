@@ -1,5 +1,5 @@
 ﻿{
-    "connectionString": "localhost:27017/login-example",
+    "connectionString": "localhost:27017/test",
     "apiUrl":  "http://localhost:3000/api",
     "secret": "REPLACE THIS WITH YOUR OWN SECRET, IT CAN BE ANY STRING"
 }
