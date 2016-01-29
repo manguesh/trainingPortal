@@ -24,22 +24,23 @@ function registerTraining(req, res) {
             // create reusable transporter object using the default SMTP transport
             //var transporter = nodemailer.createTransport('smtps://smitaborse518@gmail.com:sminishlokh@smtp.gmail.com');
             var smtpTransport = nodemailer.createTransport("SMTP", {
-                service: "Gmail",
+                host: "smtp.outlook.com", // hostname
+                secureConnection: false, // TLS requires secureConnection to be false
+                port: 587, // port for secure SMTP
                 auth: {
-                    XOAuth2: {
-                        user: "smitaborse518@gmail.com", // Your gmail address.
-                        // Not @developer.gserviceaccount.com
-                        clientId: "110591764818-mp60ovi2b6bm5haiajbrdicn7k5gmasl.apps.googleusercontent.com",
-                        clientSecret: "DS1TXaw_vugKs6iKQw1s0uVy",
-                        refreshToken: "1/ou-hU2fd9S1zMw6BbAU7t8ltxA54zfSB2vvJZDLI5Hw"
-                    }
+                    user: "rubid@smartek21.com",
+                    pass: "pass"
+                },
+                tls: {
+                    ciphers:'SSLv3'
                 }
             });
             // setup e-mail data with unicode symbols
             var mailOptions = {
-                from: 'LnD <mangesh.b1710@yahoo.in>', // sender address
-                to: 'mangueshb@smartek21.com, manguesh.borker@gmail.com,smitab@smartek21.com', // list of receivers
+                from: 'LnD <rubid@smartek21.com>', // sender address
+                to: 'mangueshb@smartek21.com', // list of receivers
                 subject: 'New training added', // Subject line
+                generateTextFromHTML: true,
                 text: 'New training added', // plaintext body
                 html: 'New training added' // html body
             };
