@@ -1,8 +1,8 @@
-﻿(function () {
+(function () {
     'use strict';
 
     angular
-        .module('app', ['ui.router'])
+        .module('app', ['ui.router', 'ui.grid', 'ui.grid.pagination', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.selection'])
         .config(config)
         .run(run);
 
@@ -16,21 +16,27 @@
                 templateUrl: 'home/index.html',
                 controller: 'Home.IndexController',
                 controllerAs: 'vm',
-                data: { activeTab: 'home' }
+                data: {
+                    activeTab: 'home'
+                }
             })
             .state('account', {
                 url: '/account',
                 templateUrl: 'account/index.html',
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',
-                data: { activeTab: 'account' }
+                data: {
+                    activeTab: 'account'
+                }
             })
             .state('training', {
                 url: '/training',
                 templateUrl: 'training/index.html',
                 controller: 'Training.IndexController',
                 controllerAs: 'vm',
-                data: { activeTab: 'training' }
+                data: {
+                    activeTab: 'training'
+                }
             });
     }
 
