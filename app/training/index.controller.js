@@ -65,8 +65,6 @@ function Controller(TrainingService, UserService, $scope, $filter, uiGridConstan
 
     function approveTraining(_id) {
         console.log("====================" + _id);
-
-
         TrainingService.GetById(_id).then(function (training) {
             //console.log("############" + JSON.stringify(training));
             TrainingService.Update(training).then(function (training) {

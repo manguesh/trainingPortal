@@ -1,4 +1,4 @@
-﻿var config = require('config.json');
+var config = require('config.json');
 var express = require('express');
 var router = express.Router();
 var userService = require('services/user.service');
@@ -10,9 +10,16 @@ router.get('/current', getCurrentUser);
 router.put('/:_id', updateUser);
 router.delete('/:_id', deleteUser);
 
-router.get('/all',getAllTraining);
-router.get('/allapproved',getAllApproved);
-
+router.get('/all', getAllTraining);
+router.get('/allapproved', getAllApproved);
+/**
+ *@api {put} /users/:_id/creditPoints Credit Points to user
+ *@apiName addCreditPoints
+ *@apiGroup Users
+ *@apiParam {Number} id Users unique ID
+ *@apiSuccess {JSON} User data
+ */
+router.put('/:_id/creditPoints', addCreditPoints);
 
 module.exports = router;
 
@@ -21,7 +28,9 @@ function authenticateUser(req, res) {
         .then(function (token) {
             if (token) {
                 // authentication successful
-                res.send({ token: token });
+                res.send({
+                    token: token
+                });
             } else {
                 // authentication failed
                 res.sendStatus(401);
@@ -33,7 +42,7 @@ function authenticateUser(req, res) {
 }
 
 function registerUser(req, res) {
-    
+
     userService.create(req.body)
         .then(function () {
             res.sendStatus(200);
@@ -88,6 +97,7 @@ function deleteUser(req, res) {
             res.status(400).send(err);
         });
 }
+
 function getAllTraining(req, res) {
     userService.getAll()
         .then(function (training) {
@@ -115,4 +125,26 @@ function getAllApproved(req, res) {
         .catch(function (err) {
             res.status(400).send(err);
         });
+}
+
+function addCreditPoints(req, res) {
+    console.log("Requested addCreditPoints ");
+    var userToCreditPoint = req.params._id;
+    console.log(userToCreditPoint);
+    if (userToCreditPoint) {
+        console.log("Adding credits to user : " + userToCreditPoint);
+        // Need to find the user and credit 8 points
+        userService.creditPoints(userToCreditPoint, 8).then(function (user) {
+            if (user) {
+                res.send(user);
+            } else {
+                res.sendStatus(404);
+            }
+        }).catch(function (err) {
+            res.status(400).send(err);
+        });
+    } else {
+        console.log("User ID did not come through!");
+        res.send(400);
+    }
 }

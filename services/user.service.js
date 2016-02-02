@@ -1,4 +1,4 @@
-﻿var config = require('config.json');
+var config = require('config.json');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk(config.connectionString);
@@ -20,17 +20,22 @@ service.delete = _delete;
 
 service.getAll = getAll;
 service.getAllApprovedTraining = getAllApprovedTraining;
+service.creditPoints = creditPoints;
 module.exports = service;
 
 function authenticate(username, password) {
     var deferred = Q.defer();
 
-    usersDb.findOne({ username: username }, function (err, user) {
+    usersDb.findOne({
+        username: username
+    }, function (err, user) {
         if (err) deferred.reject(err);
 
         if (user && bcrypt.compareSync(password, user.hash)) {
             // authentication successful
-            deferred.resolve(jwt.sign({ sub: user._id }, config.secret));
+            deferred.resolve(jwt.sign({
+                sub: user._id
+            }, config.secret));
         } else {
             // authentication failed
             deferred.resolve();
@@ -62,8 +67,9 @@ function create(userParam) {
     var deferred = Q.defer();
 
     // validation
-    usersDb.findOne(
-        { username: userParam.username },
+    usersDb.findOne({
+            username: userParam.username
+        },
         function (err, user) {
             if (err) deferred.reject(err);
 
@@ -103,8 +109,9 @@ function update(_id, userParam) {
 
         if (user.username !== userParam.username) {
             // username has changed so check if the new username is already taken
-            usersDb.findOne(
-                { username: userParam.username },
+            usersDb.findOne({
+                    username: userParam.username
+                },
                 function (err, user) {
                     if (err) deferred.reject(err);
 
@@ -133,9 +140,11 @@ function update(_id, userParam) {
             set.hash = bcrypt.hashSync(userParam.password, 10);
         }
 
-        usersDb.findAndModify(
-            { _id: _id },
-            { $set: set },
+        usersDb.findAndModify({
+                _id: _id
+            }, {
+                $set: set
+            },
             function (err, doc) {
                 if (err) deferred.reject(err);
 
@@ -149,8 +158,9 @@ function update(_id, userParam) {
 function _delete(_id) {
     var deferred = Q.defer();
 
-    usersDb.remove(
-        { _id: _id },
+    usersDb.remove({
+            _id: _id
+        },
         function (err) {
             if (err) deferred.reject(err);
 
@@ -162,15 +172,15 @@ function _delete(_id) {
 
 
 function getAll() {
-    
+
     var deferred = Q.defer();
-    trainingDb.find({}, {},function (err, training) {
+    trainingDb.find({}, {}, function (err, training) {
 
         if (err) deferred.reject(err);
 
         if (training) {
-        
-            
+
+
             deferred.resolve(training);
         } else {
             // user not found
@@ -182,15 +192,17 @@ function getAll() {
 }
 
 function getAllApprovedTraining() {
-   console.log("in"); 
+    console.log("in");
     var deferred = Q.defer();
-    trainingDb.find({"approvedStatus":true}, {},function (err, training) {
+    trainingDb.find({
+        "approvedStatus": true
+    }, {}, function (err, training) {
 
         if (err) deferred.reject(err);
 
         if (training) {
-           
-            
+
+
             deferred.resolve(training);
         } else {
             // user not found
@@ -201,3 +213,29 @@ function getAllApprovedTraining() {
     return deferred.promise;
 }
 
+/*
+ * Adds credit points to the user document
+ */
+function creditPoints(_id, points) {
+    console.log("Crediting " + points + " to user " + _id);
+    var deferred = Q.defer();
+    usersDb.findById(_id, function (err, user) {
+        if (err) deferred.reject(err);
+        if (user) {
+            (!user.creditPoints) ? (user.creditPoints = points) : (user.creditPoints += points);
+            usersDb.findAndModify({
+                    _id: user._id
+                }, {
+                    $set: user
+                },
+                function (err, doc) {
+                    if (err) deferred.reject(err);
+
+                    deferred.resolve(doc);
+
+                });
+            console.log(user);
+        }
+    });
+    return deferred.promise;
+}
