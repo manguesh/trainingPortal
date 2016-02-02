@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <!--<link href="training/src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />-->
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 
     <!-- external scripts -->
 
@@ -115,7 +115,7 @@
                             <!-- FORM TO CREATE TODOS -->
                             <div id="todo-form" class="row">
                                 <div class="form-container">
-                                    <form method="post">
+                                    <form method="post" ng-submit="vm.createTraining(vm.training)">
                                         <legend>Propose a New Training</legend>
                                         <input type="hidden" ng-model="vm.training.addedBy" value="vm.users.userType">
                                         <input type="hidden" ng-model="vm.training.addedStatus" value="false">
@@ -130,7 +130,7 @@
                                         <div class="form-group">
                                             <label for="dates">Dates</label>
 
-                                            <input type="text" id="dates" class="form-control" ng-model="vm.training.dates" jqdatepicker required />
+                                            <input type="text" id="trainingDates" class="form-control" ng-model="vm.training.dates" jqdatepicker required />
                                             <br/>
                                         </div>
                                         <div class="form-group">
@@ -181,7 +181,8 @@
                                             <input type="text" id="trainingBy" class="form-control" ng-model="vm.training.trainingBy" required />
                                         </div>
                                         <div class="form-group">
-                                            <button class="btn btn-primary" ng-click="vm.createTraining(vm.training)">Save</button>
+                                            <input type="submit" class="btn btn-primary" value="Save" />
+                                            <!--                                            <button class="btn btn-primary" ng-click="vm.createTraining(vm.training)">Save</button>-->
                                         </div>
                                     </form>
                                 </div>
