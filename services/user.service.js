@@ -21,6 +21,7 @@ service.delete = _delete;
 service.getAll = getAll;
 service.getAllApprovedTraining = getAllApprovedTraining;
 service.creditPoints = creditPoints;
+service.getAllUsers = getAllUsers;
 module.exports = service;
 
 function authenticate(username, password) {
@@ -230,11 +231,30 @@ function creditPoints(_id, points) {
                 },
                 function (err, doc) {
                     if (err) deferred.reject(err);
-
-                    deferred.resolve(doc);
-
+                    console.log(doc);
                 });
-            console.log(user);
+            deferred.resolve(user);
+        }
+    });
+    return deferred.promise;
+}
+
+/*
+ * Gets all the users
+ */
+function getAllUsers() {
+    var deferred = Q.defer();
+    usersDb.find({}, {}, function (err, users) {
+
+        if (err) deferred.reject(err);
+
+        if (users) {
+            console.log("-------LIST OF USERS --------: " + JSON.stringify(users));
+
+            deferred.resolve(users);
+        } else {
+            // users not found
+            deferred.resolve();
         }
     });
     return deferred.promise;

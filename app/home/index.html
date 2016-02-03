@@ -1,4 +1,4 @@
-<h1>Hi {{vm.users.firstName}}!!</h1>
+<h1 style="font-family: 'Lobster', cursive; color:cornflowerblue;">Hi {{vm.users.firstName}}!!</h1>
 
 <div ng-switch on="vm.users.userType">
     <h1 ng-switch-when="1">Welcome as LND Admin </h1>
@@ -37,7 +37,11 @@
 
 <body>
     <div ng-controlle="Home.IndexController">
-        <div ui-grid-pagination ui-grid-edit ui-grid-selection ui-grid-exporter ui-grid-resize-columns ui-grid="gridOptions"></div>
+        <div ng-switch on="vm.users.userType">
+            <div ng-switch-when="1">
+                <div ui-grid-pagination ui-grid-edit ui-grid-selection ui-grid-exporter ui-grid-resize-columns ui-grid="gridOptions"></div>
+            </div>
+        </div>
     </div>
     <!-- <div ng-repeat="training in vm.trainings|orderBy:sortKey:reverse|filter:search"> 
 <div ng-switch on="vm.users.userType"><h1 ng-switch-when="1">Welcome as LND Admin </h1><h1 ng-switch-when="2">Welcome as Manager </h1><h1 ng-switch-when="3">Welcome as Employee </h1></div>

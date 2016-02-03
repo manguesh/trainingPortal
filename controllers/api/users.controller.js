@@ -13,14 +13,20 @@ router.delete('/:_id', deleteUser);
 router.get('/all', getAllTraining);
 router.get('/allapproved', getAllApproved);
 /**
- *@api {put} /users/:_id/creditPoints Credit Points to user
+ *@api {put} /api/users/:_id/creditPoints Credit Points to user
  *@apiName addCreditPoints
  *@apiGroup Users
  *@apiParam {Number} id Users unique ID
  *@apiSuccess {JSON} User data
  */
 router.put('/:_id/creditPoints', addCreditPoints);
-
+/**
+ *@api {get} /api/users/getAllUsers get all registered users
+ *@apiName getAllUsers
+ *@apiGroup Users
+ *@apiSuccess {JSON} List of registered Users
+ */
+router.get('/getAllUsers', getAllUsers);
 module.exports = router;
 
 function authenticateUser(req, res) {
@@ -147,4 +153,18 @@ function addCreditPoints(req, res) {
         console.log("User ID did not come through!");
         res.send(400);
     }
+}
+
+function getAllUsers(req, res) {
+    console.log("GetAllUsers requested! ");
+    userService.getAllUsers().then(function (users) {
+            if (users) {
+                res.send(users);
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(function (err) {
+            res.status(400).send(err);
+        });
 }

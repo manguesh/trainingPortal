@@ -180,5 +180,4 @@ app.directive('jqdatepicker', function () {
         }
     };
 });
-
 //})();

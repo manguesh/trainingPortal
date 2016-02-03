@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
     'use strict';
 
     angular
@@ -16,6 +16,8 @@
         service.Update = Update;
         service.Delete = Delete;
         service.GetAllApproved = GetAllApproved;
+        service.GetAllUsers = GetAllUsers;
+        service.CreditPointsToUser = CreditPointsToUser;
 
         return service;
 
@@ -46,8 +48,18 @@
         function Delete(_id) {
             return $http.delete('/api/users/' + _id).then(handleSuccess, handleError);
         }
+
         function GetAllApproved() {
             return $http.get('/api/users/allapproved').then(handleSuccess, handleError);
+
+        }
+
+        function GetAllUsers() {
+            return $http.get('/api/users/getAllUsers').then(handleSuccess, handleError);
+        }
+
+        function CreditPointsToUser(_id) {
+            return $http.put('/api/users/' + _id + "/creditPoints").then(handleSuccess, handleError);
         }
 
         // private functions
