@@ -1,0 +1,24 @@
+<h1>Management Console</h1>
+<div ng-app="app">
+    <div ng-controller="Dashboard.IndexController">
+        Charts and plots will be displayed here
+        <div ng-switch on="vm.currentUser.userType">
+            <div class="col-md-6" ng-switch-when="1">
+                <h3>Points Collected by Users</h3>
+                <canvas id="base" class="chart-base" chart-type="vm.chartData.type"
+                        chart-data="vm.chartData.data" chart-labels="vm.chartData.labels" chart-legend="true">
+                </canvas>
+                <button class="btn btn-info" ng-click="vm.chartData.toggle()">Toggle</button>
+            </div>
+
+            <div class="col-md-6" ng-switch-when="1">
+                <canvas id="line" class="chart chart-line" chart-data="data"
+                        chart-labels="labels" chart-legend="true" chart-series="series"
+                        chart-click="onClick" >
+                </canvas>
+            </div>
+        </div>
+        <canvas id="bar" class="chart chart-bar" chart-data="dataBar" chart-labels="labelsBar" chart-series="seriesBar">
+        </canvas>
+    </div>
+</div>

@@ -118,7 +118,7 @@
                 {
                     field: "creditPoints",
                     displayName: "Points",
-                    type: Number
+                    type: 'number'
                 }, {
                     displayName: "Action",
                     name: "action",

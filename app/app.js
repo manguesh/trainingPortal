@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ui.router', 'ui.grid', 'ui.grid.pagination', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.selection'])
+        .module('app', ['ui.router', 'ui.grid', 'ui.grid.pagination', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.selection','chart.js'])
         .config(config)
         .run(run);
 
@@ -36,6 +36,15 @@
                 controllerAs: 'vm',
                 data: {
                     activeTab: 'training'
+                }
+            })
+            .state('dashboard',{
+                url:'/dashboard',
+                templateUrl :'dashboard/index.html',
+                controller: 'Dashboard.IndexController',
+                controllerAs : 'vm',
+                data:{
+                    activeTab: 'dashboard'
                 }
             });
     }

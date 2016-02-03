@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css">
     <link rel="stylesheet" type="text/css" href="app-content/sweetalert.css">
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href="app-content/angular-chart.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body class="container">
@@ -19,6 +20,7 @@
             <li ng-class="{active: activeTab === 'home'}"><a ui-sref="home">Home</a></li>
             <li ng-class="{active: activeTab === 'account'}"><a ui-sref="account">Account</a></li>
             <li ng-class="{active: activeTab === 'training'}"><a ui-sref="training">Training</a></li>
+            <li ng-class="{active: activeTab === 'dashboard'}"><a ui-sref="dashboard">Dashboard</a></li>
             <li><a href="/login" target="_self">Logout</a></li>
             <li ng-show=""><a href="/login" target="_self">Logout</a></li>
         </ul>
@@ -40,6 +42,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <script src="//cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script src="app-content/angular-chart.min.js"></script>
     <script src="app-content/sweetalert.min.js"></script>
     <!-- application scripts -->
     <script src="app.js"></script>
@@ -49,6 +53,7 @@
     <script src="home/index.controller.js"></script>
     <script src="account/index.controller.js"></script>
     <script src="training/index.controller.js"></script>
+    <script src="dashboard/index.controller.js"></script>
 </body>
 
 </html>
